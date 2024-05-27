@@ -55,3 +55,26 @@ export async function POST(request: Request) {
     return new Response('An error occurred', { status: 500 })
   }
 }
+
+export async function GET() {
+  try {
+    const courses = await prisma.course.findMany({
+      include: {
+        coordinator: {
+          include: {
+            user: true,
+          },
+        },
+        institute: true,
+      },
+    })
+
+    return NextResponse.json(courses)
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message)
+      return new Response(error.message, { status: 500 })
+    }
+    return new Response('An error occurred', { status: 500 })
+  }
+}

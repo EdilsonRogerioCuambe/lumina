@@ -74,7 +74,7 @@ export const columns: ColumnDef<CourseWithCoordinatorWithInstitute>[] = [
 
       const handleDelete = async () => {
         try {
-          await axios.delete(`/api/admin/institutes/${id}`)
+          await axios.delete(`/api/admin/courses/${id}`)
           toast.success('Instituto excluído com sucesso')
           window.location.reload()
         } catch (error) {
@@ -95,7 +95,7 @@ export const columns: ColumnDef<CourseWithCoordinatorWithInstitute>[] = [
             className="text-[#333333] bg-[#333333] rounded-md shadow-lg"
             align="end"
           >
-            <Link href={`/admin/institutes/${id}`} passHref>
+            <Link href={`/admin/courses/${id}`} passHref>
               <DropdownMenuItem className="text-[#f5f5f5] bg-[#333333] flex items-center px-4 py-2 rounded">
                 <Pencil className="h-4 w-4 mr-2" />
                 Editar

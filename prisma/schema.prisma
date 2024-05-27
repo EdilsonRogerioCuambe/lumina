@@ -73,8 +73,8 @@ model User {
   Account     Account[]
   Session     Session[]
   coordinator Coordinator[]
-  Professor   Professor?
-  Student     Student?
+  professor   Professor?
+  student     Student?
 }
 
 model Coordinator {
@@ -130,6 +130,7 @@ model Professor {
   subjects  Subject[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  tasks     Task[]
 }
 
 model Subject {
@@ -151,6 +152,7 @@ model Subject {
   Attendance          Attendance[]
   subjectPrerequisite Subject[]    @relation("SubjectPrerequisite")
   subjectCorequisite  Subject[]    @relation("SubjectCorequisite")
+  tasks               Task[]
 }
 
 model Student {
@@ -158,13 +160,14 @@ model Student {
   userId     String       @unique
   user       User         @relation(fields: [userId], references: [id])
   classId    String?
-  class      Class?        @relation(fields: [classId], references: [id])
+  class      Class?       @relation(fields: [classId], references: [id])
   attendance Attendance[]
   grades     Grade[]
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
   Course     Course?      @relation(fields: [courseId], references: [id])
   courseId   String?
+  submissions Submission[]
 }
 
 model Attendance {
@@ -197,6 +200,32 @@ model Grade {
   subjectId String
   subject   Subject  @relation(fields: [subjectId], references: [id])
   grade     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Task {
+  id          String       @id @default(uuid())
+  title       String
+  description String
+  dueDate     DateTime
+  subjectId   String
+  subject     Subject      @relation(fields: [subjectId], references: [id])
+  professorId String
+  professor   Professor    @relation(fields: [professorId], references: [id])
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  submissions Submission[]
+}
+
+model Submission {
+  id        String   @id @default(uuid())
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id])
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id])
+  content   String
+  grade     Float?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
