@@ -56,17 +56,17 @@ export function DataTable<TData, TValue>({
     <div className="text-[#333333]">
       <div className="flex items-center py-4 justify-between gap-x-2">
         <Input
-          placeholder='Pesquisar usuário pelo "nome"'
+          placeholder='Pesquisar curso por "nome"'
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
             table.getColumn('name')?.setFilterValue(event.target.value)
           }
           className="max-w-sm w-full"
         />
-        <Link href="/admin/users/add">
+        <Link href="/admin/courses/add">
           <Button className="rounded flex items-center gap-x-2 bg-[#333333] hover:bg-[#202024] text-[#f5f5f5]">
             <PlusCircle className="w-6 h-6" />
-            Novo usuário
+            Novo Curso
           </Button>
         </Link>
       </div>
@@ -114,7 +114,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Nenhum instituto encontrado.
+                  Nenhum curso encontrado.
                 </TableCell>
               </TableRow>
             )}

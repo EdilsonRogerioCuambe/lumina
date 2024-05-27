@@ -72,7 +72,7 @@ model User {
   updatedAt   DateTime      @default(now())
   Account     Account[]
   Session     Session[]
-  Coordinator Coordinator[]
+  coordinator Coordinator[]
   Professor   Professor?
   Student     Student?
 }
@@ -157,8 +157,8 @@ model Student {
   id         String       @id @default(uuid())
   userId     String       @unique
   user       User         @relation(fields: [userId], references: [id])
-  classId    String
-  class      Class        @relation(fields: [classId], references: [id])
+  classId    String?
+  class      Class?        @relation(fields: [classId], references: [id])
   attendance Attendance[]
   grades     Grade[]
   createdAt  DateTime     @default(now())

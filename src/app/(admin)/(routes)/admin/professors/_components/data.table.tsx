@@ -22,8 +22,6 @@ import {
 } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import Link from 'next/link'
-import { PlusCircle } from 'lucide-react'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -56,37 +54,29 @@ export function DataTable<TData, TValue>({
     <div className="text-[#333333]">
       <div className="flex items-center py-4 justify-between gap-x-2">
         <Input
-          placeholder='Pesquisar usuário pelo "nome"'
+          placeholder='Pesquisar coordenador por "nome"'
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
             table.getColumn('name')?.setFilterValue(event.target.value)
           }
           className="max-w-sm w-full"
         />
-        <Link href="/admin/users/add">
-          <Button className="rounded flex items-center gap-x-2 bg-[#333333] hover:bg-[#202024] text-[#f5f5f5]">
-            <PlusCircle className="w-6 h-6" />
-            Novo usuário
-          </Button>
-        </Link>
       </div>
       <div className="rounded mt-4">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </TableHead>
-                  )
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -114,7 +104,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Nenhum instituto encontrado.
+                  Nenhum coordenador encontrado.
                 </TableCell>
               </TableRow>
             )}

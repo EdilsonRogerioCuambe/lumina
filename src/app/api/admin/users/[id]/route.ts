@@ -29,6 +29,42 @@ export async function PATCH(
       },
     })
 
+    if (values.role === 'COORDINATOR') {
+      await prisma.coordinator.create({
+        data: {
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+      })
+    }
+
+    if (values.role === 'STUDENT') {
+      await prisma.student.create({
+        data: {
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+      })
+    }
+
+    if (values.role === 'PROFESSOR') {
+      await prisma.professor.create({
+        data: {
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+      })
+    }
+
     return NextResponse.json(user)
   } catch (error) {
     if (error instanceof Error) {

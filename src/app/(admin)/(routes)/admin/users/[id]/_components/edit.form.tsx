@@ -246,6 +246,7 @@ export default function EditUserForm({ user }: { user: User }) {
                     <SelectItem value="ADMIN">Admin</SelectItem>
                     <SelectItem value="PROFESSOR">Professor</SelectItem>
                     <SelectItem value="STUDENT">Estudante</SelectItem>
+                    <SelectItem value="COORDINATOR">Coordenador</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
