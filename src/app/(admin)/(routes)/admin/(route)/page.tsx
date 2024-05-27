@@ -23,12 +23,12 @@ export default async function Page() {
     {
       title: 'Total de Usuários',
       count: users.length,
-      icon: <User className="h-12 w-12 text-gray-700" />,
+      icon: <User className="h-12 w-12 text-[#333333]" />,
     },
     {
       title: 'Total de Cursos',
       count: courses.length,
-      icon: <BookOpen className="h-12 w-12 text-gray-700" />,
+      icon: <BookOpen className="h-12 w-12 text-[#333333]" />,
     },
     {
       title: 'Total de Estudantes',
@@ -58,10 +58,10 @@ export default async function Page() {
   const instituteCourseCounts: { [key: string]: number } = {}
 
   courses.forEach((course) => {
-    if (instituteCourseCounts[course.id]) {
-      instituteCourseCounts[course.id] += 1
+    if (instituteCourseCounts[course.instituteId]) {
+      instituteCourseCounts[course.instituteId] += 1
     } else {
-      instituteCourseCounts[course.id] = 1
+      instituteCourseCounts[course.instituteId] = 1
     }
   })
 
@@ -78,16 +78,18 @@ export default async function Page() {
           <Card key={index} {...card} />
         ))}
       </div>
-      <div className="bg-white p-6 rounded shadow mb-6">
-        <h2 className="text-xl font-bold mb-4">Distribuição de Usuários</h2>
-        <BarChart data={userChartData} labels={userChartLabels} />
-      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div className="bg-white p-6 rounded shadow">
+          <h2 className="text-xl font-bold mb-4">Distribuição de Usuários</h2>
+          <BarChart data={userChartData} labels={userChartLabels} />
+        </div>
 
-      <div className="bg-white p-6 rounded shadow mb-6">
-        <h2 className="text-xl font-bold mb-4">
-          Distribuição de Cursos por Instituto
-        </h2>
-        <PieChart data={courseChartData} labels={courseChartLabels} />
+        <div className="bg-white p-6 rounded shadow">
+          <h2 className="text-xl font-bold mb-4">
+            Distribuição de Cursos por Instituto
+          </h2>
+          <PieChart data={courseChartData} labels={courseChartLabels} />
+        </div>
       </div>
     </div>
   )

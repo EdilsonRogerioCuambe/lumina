@@ -38,7 +38,11 @@ const PieChart: React.FC<PieChartProps> = ({ data, labels }) => {
     ],
   }
 
-  return <Pie data={chartData} />
+  return (
+    <div className="h-96 justify-center items-center flex">
+      <Pie data={chartData} />
+    </div>
+  )
 }
 
 export default PieChart

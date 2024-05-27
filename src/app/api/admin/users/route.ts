@@ -13,6 +13,7 @@ export async function POST(request: Request) {
       birthdate,
       gender,
       address,
+      role,
       zip,
       city,
       state,
@@ -71,6 +72,20 @@ export async function POST(request: Request) {
         cpf,
       },
     })
+
+    if (role === 'STUDENT') {
+      await prisma.student.create({
+        data: {
+          userId: user.id,
+        },
+      })
+    } else if (role === 'PROFESSOR') {
+      await prisma.professor.create({
+        data: {
+          userId: user.id,
+        },
+      })
+    }
 
     const emailSubject = 'Bem-vindo ao nosso sistema!'
     const emailHtml = `

@@ -8,7 +8,7 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ title, count, icon }) => {
   return (
-    <div className="flex items-center gap-x-2 p-4 bg-gradient-to-r from-gray-100 to-gray-200 shadow rounded-lg">
+    <div className="flex items-center gap-x-2 p-4 bg-white shadow rounded-lg border-2 border-[#333333]">
       {icon}
       <div>
         <h2 className="font-bold uppercase">{title}</h2>
