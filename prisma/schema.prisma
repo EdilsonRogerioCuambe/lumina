@@ -1,0 +1,216 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String   @id @default(uuid())
+  userId            String   @map("user_id")
+  type              String?
+  provider          String
+  providerAccountId String   @map("provider_account_id")
+  token_type        String?
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  scope             String?
+  id_token          String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @default(now())
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  userId       String?  @map("user_id")
+  sessionToken String   @unique @map("session_token")
+  accessToken  String?  @map("access_token")
+  expires      DateTime
+  user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now())
+
+  @@map("sessions")
+}
+
+model VerificationRequest {
+  id         String   @id @default(uuid())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+
+  @@unique([identifier, token])
+}
+
+model User {
+  id          String        @id @default(uuid())
+  email       String        @unique
+  password    String?
+  name        String?
+  code        String?
+  avatar      String?
+  role        Role          @default(STUDENT)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now())
+  Account     Account[]
+  Session     Session[]
+  Coordinator Coordinator[]
+  Professor   Professor?
+  Student     Student?
+}
+
+model Coordinator {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  courses   Course[]
+
+  @@map("coordinators")
+}
+
+model Institute {
+  id        String   @id @default(uuid())
+  name      String
+  code      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  courses   Course[]
+}
+
+model Course {
+  id            String      @id @default(uuid())
+  name          String
+  code          String
+  coordinatorId String
+  coordinator   Coordinator @relation(fields: [coordinatorId], references: [id])
+  instituteId   String
+  institute     Institute   @relation(fields: [instituteId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @default(now())
+  subjects      Subject[]
+  students      Student[]
+  classes       Class[]
+}
+
+model Class {
+  id        String    @id @default(uuid())
+  courseId  String
+  course    Course    @relation(fields: [courseId], references: [id])
+  semester  Int
+  year      Int
+  students  Student[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Professor {
+  id        String    @id @default(uuid())
+  userId    String    @unique
+  user      User      @relation(fields: [userId], references: [id])
+  subjects  Subject[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Subject {
+  id                  String       @id @default(uuid())
+  name                String
+  code                String       @unique
+  courseId            String
+  course              Course       @relation(fields: [courseId], references: [id])
+  professorId         String
+  professor           Professor    @relation(fields: [professorId], references: [id])
+  prerequisiteId      String?
+  prerequisite        Subject?     @relation("SubjectPrerequisite", fields: [prerequisiteId], references: [id])
+  corequisiteId       String?
+  corequisite         Subject?     @relation("SubjectCorequisite", fields: [corequisiteId], references: [id])
+  grades              Grade[]
+  schedules           Schedule[]
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+  Attendance          Attendance[]
+  subjectPrerequisite Subject[]    @relation("SubjectPrerequisite")
+  subjectCorequisite  Subject[]    @relation("SubjectCorequisite")
+}
+
+model Student {
+  id         String       @id @default(uuid())
+  userId     String       @unique
+  user       User         @relation(fields: [userId], references: [id])
+  classId    String
+  class      Class        @relation(fields: [classId], references: [id])
+  attendance Attendance[]
+  grades     Grade[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  Course     Course?      @relation(fields: [courseId], references: [id])
+  courseId   String?
+}
+
+model Attendance {
+  id        String           @id @default(uuid())
+  studentId String
+  student   Student          @relation(fields: [studentId], references: [id])
+  subjectId String
+  subject   Subject          @relation(fields: [subjectId], references: [id])
+  status    AttendanceStatus
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+}
+
+model Schedule {
+  id        String    @id @default(uuid())
+  subjectId String
+  subject   Subject   @relation(fields: [subjectId], references: [id])
+  room      String
+  dayOfWeek DayOfWeek
+  startTime DateTime
+  endTime   DateTime
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Grade {
+  id        String   @id @default(uuid())
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id])
+  subjectId String
+  subject   Subject  @relation(fields: [subjectId], references: [id])
+  grade     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  COORDINATOR
+  STUDENT
+  PROFESSOR
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  EXCUSED
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
