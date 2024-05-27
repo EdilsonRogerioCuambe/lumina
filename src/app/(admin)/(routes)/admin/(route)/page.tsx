@@ -52,8 +52,10 @@ export default async function Page() {
     },
   ]
 
-  const userChartData = [students.length, professors.length]
-  const userChartLabels = ['Estudantes', 'Professores']
+  const maleCount = users.filter((user) => user.gender === 'MASCULINE').length
+  const femaleCount = users.filter((user) => user.gender === 'FEMALE').length
+  const userChartData = [maleCount, femaleCount]
+  const userChartLabels = ['Homens', 'Mulheres']
 
   const instituteCourseCounts: { [key: string]: number } = {}
 
@@ -80,7 +82,9 @@ export default async function Page() {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <div className="bg-white p-6 rounded shadow">
-          <h2 className="text-xl font-bold mb-4">Distribuição de Usuários</h2>
+          <h2 className="text-xl font-bold mb-4">
+            Distribuição de Gênero dos Usuários
+          </h2>
           <BarChart data={userChartData} labels={userChartLabels} />
         </div>
 

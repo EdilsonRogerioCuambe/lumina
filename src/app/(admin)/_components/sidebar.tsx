@@ -91,6 +91,10 @@ export default function Sidebar({ isOpen }: SidebarProps) {
       title: 'Disciplinas',
       path: '/admin/subjects',
       icon: <Clipboard />,
+      sublinks: [
+        { title: 'Lista de Disciplinas', path: '/admin/subjects/list' },
+        { title: 'Adicionar Disciplina', path: '/admin/subjects/add' },
+      ],
     },
     {
       title: 'Turmas',
