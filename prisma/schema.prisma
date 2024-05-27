@@ -62,6 +62,7 @@ model User {
   address     String?
   city        String?
   state       String?
+  cpf         String?
   country     String?
   zip         String?
   code        String?
