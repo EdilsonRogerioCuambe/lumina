@@ -137,6 +137,7 @@ model Subject {
   id                  String       @id @default(uuid())
   name                String
   code                String       @unique
+  workload            Int
   courseId            String
   course              Course       @relation(fields: [courseId], references: [id])
   professorId         String
@@ -149,7 +150,7 @@ model Subject {
   schedules           Schedule[]
   createdAt           DateTime     @default(now())
   updatedAt           DateTime     @updatedAt
-  Attendance          Attendance[]
+  attendance          Attendance[]
   subjectPrerequisite Subject[]    @relation("SubjectPrerequisite")
   subjectCorequisite  Subject[]    @relation("SubjectCorequisite")
   tasks               Task[]
