@@ -16,7 +16,7 @@ export default function Navbar({ open, setOpen }: NavbarProps) {
   const { data: session } = useSession()
 
   return (
-    <nav className="bg-white w-full border-b md:border-0">
+    <nav className="bg-white w-full border-b fixed top-0 z-50">
       <div className="flex items-center justify-between px-4 mx-auto md:px-8">
         <Link href="/" className="flex items-center py-3 md:py-5">
           <Image src={logo} alt="Lumina" width={40} height={40} />

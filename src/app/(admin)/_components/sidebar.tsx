@@ -18,6 +18,7 @@ import {
   LogOut,
 } from 'lucide-react'
 import { useState } from 'react'
+import { signOut } from 'next-auth/react'
 
 interface SidebarProps {
   isOpen: boolean
@@ -43,7 +44,7 @@ export default function Sidebar({ isOpen }: SidebarProps) {
   }
 
   const menus: MenuItem[] = [
-    { title: 'Dashboard', path: '/admin/dashboard', icon: <Menu /> },
+    { title: 'Dashboard', path: '/admin', icon: <Menu /> },
     {
       title: 'Usuários',
       path: '/admin/users',
@@ -111,19 +112,14 @@ export default function Sidebar({ isOpen }: SidebarProps) {
       path: '/admin/attendances',
       icon: <Clipboard />,
     },
-    {
-      title: 'Sair',
-      path: '/auth/logout',
-      icon: <LogOut />,
-    },
   ]
 
   return (
-    <div className="md:w-64">
+    <div className="w-64">
       <div
-        className={`fixed inset-y-0 left-0 top-16 md:top-0 bg-white min-h-screen shadow-lg z-50 w-64 transition-transform transform ${
+        className={`fixed inset-y-0 left-0 top-16 bg-white min-h-screen z-50 w-64 transition-transform transform ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:relative md:translate-x-0 md:shadow-none`}
+        } md:translate-x-0`}
       >
         <ul className="space-y-2 p-4">
           {menus.map((menu, index) => (
@@ -135,6 +131,7 @@ export default function Sidebar({ isOpen }: SidebarProps) {
                 </Link>
                 {menu.sublinks && (
                   <button
+                    type="button"
                     onClick={() => handleSubMenuToggle(menu.title)}
                     className="focus:outline-none"
                   >
@@ -163,6 +160,16 @@ export default function Sidebar({ isOpen }: SidebarProps) {
             </li>
           ))}
         </ul>
+        <div className="absolute bottom-0 w-full bg-white p-4">
+          <button
+            type="button"
+            onClick={() => signOut()}
+            className="flex items-center p-2 space-x-2 text-red-600 hover:text-red-800"
+          >
+            <LogOut />
+            <span>Sair</span>
+          </button>
+        </div>
       </div>
     </div>
   )

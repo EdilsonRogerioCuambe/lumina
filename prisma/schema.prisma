@@ -56,6 +56,14 @@ model User {
   email       String        @unique
   password    String?
   name        String?
+  gender      Gender?
+  birthdate   DateTime?
+  phone       String?
+  address     String?
+  city        String?
+  state       String?
+  country     String?
+  zip         String?
   code        String?
   avatar      String?
   role        Role          @default(STUDENT)
@@ -197,6 +205,11 @@ enum Role {
   COORDINATOR
   STUDENT
   PROFESSOR
+}
+
+enum Gender {
+  MASCULINE
+  FEMALE
 }
 
 enum AttendanceStatus {

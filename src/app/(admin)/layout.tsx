@@ -11,7 +11,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Navbar open={isOpen} setOpen={setIsOpen} />
       <div className="flex flex-1">
         <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
-        <main className="flex-1 p-4">{children}</main>
+        <main className="flex-1 p-4 pt-24">{children}</main>
       </div>
     </div>
   )
