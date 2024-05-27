@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { generateCode } from '@/lib/generate.code'
 import prisma from '@/database/db'
 import bcrypt from 'bcryptjs'
+import { sendMail } from '@/lib/nodemailer'
 
 export async function POST(request: Request) {
   try {
@@ -13,7 +14,6 @@ export async function POST(request: Request) {
       gender,
       address,
       zip,
-      role,
       city,
       state,
       country,
@@ -30,7 +30,6 @@ export async function POST(request: Request) {
       !address ||
       !zip ||
       !city ||
-      !state ||
       !state ||
       !country ||
       !phone ||
@@ -65,7 +64,6 @@ export async function POST(request: Request) {
         address,
         zip,
         city,
-        role,
         state,
         country,
         phone,
@@ -73,6 +71,26 @@ export async function POST(request: Request) {
         cpf,
       },
     })
+
+    const emailSubject = 'Bem-vindo ao nosso sistema!'
+    const emailHtml = `
+      <div style="background-color: #f5f5f5; padding: 20px;">
+        <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 10px;">
+          <h2 style="color: #333333;">Bem-vindo ao nosso sistema!</h2>
+          <p style="color: #333333;">
+            Olá ${name},
+          </p>
+          <p style="color: #333333;">
+            Seu cadastro foi realizado com sucesso. Você já pode entrar no sistema utilizando seu email e senha.
+          </p>
+          <p style="color: #333333;">
+            Obrigado!
+          </p>
+        </div>
+      </div>
+    `
+
+    await sendMail(email, emailSubject, emailHtml)
 
     return NextResponse.json(user)
   } catch (error) {

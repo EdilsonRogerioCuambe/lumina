@@ -43,7 +43,6 @@ const formSchema = z.object({
   gender: z.string().optional(),
   phone: z.string().optional(),
   birthdate: z.date(),
-  // role can be ADMIN, TEACHER or STUDENT
   role: z.string().optional(),
   password: z.string(),
   confirmPassword: z.string(),
@@ -251,6 +250,7 @@ export default function Page() {
                       <SelectItem value="ADMIN">Admin</SelectItem>
                       <SelectItem value="TEACHER">Professor</SelectItem>
                       <SelectItem value="STUDENT">Estudante</SelectItem>
+                      <SelectItem value="COORDINATOR">Coordenador</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
