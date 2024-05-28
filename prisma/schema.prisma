@@ -110,6 +110,7 @@ model Course {
   subjects      Subject[]
   students      Student[]
   classes       Class[]
+  professors    Professor[] @relation("ProfessorCourses")
 }
 
 model Class {
@@ -130,6 +131,7 @@ model Professor {
   subjects  Subject[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  courses   Course[]  @relation("ProfessorCourses")
   tasks     Task[]
 }
 
@@ -138,10 +140,11 @@ model Subject {
   name                String
   code                String       @unique
   workload            Int
-  courseId            String
-  course              Course       @relation(fields: [courseId], references: [id])
-  professorId         String
-  professor           Professor    @relation(fields: [professorId], references: [id])
+  semester            Int
+  courseId            String?
+  course              Course?      @relation(fields: [courseId], references: [id])
+  professorId         String?
+  professor           Professor?   @relation(fields: [professorId], references: [id])
   prerequisiteId      String?
   prerequisite        Subject?     @relation("SubjectPrerequisite", fields: [prerequisiteId], references: [id])
   corequisiteId       String?
@@ -157,17 +160,17 @@ model Subject {
 }
 
 model Student {
-  id         String       @id @default(uuid())
-  userId     String       @unique
-  user       User         @relation(fields: [userId], references: [id])
-  classId    String?
-  class      Class?       @relation(fields: [classId], references: [id])
-  attendance Attendance[]
-  grades     Grade[]
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
-  Course     Course?      @relation(fields: [courseId], references: [id])
-  courseId   String?
+  id          String       @id @default(uuid())
+  userId      String       @unique
+  user        User         @relation(fields: [userId], references: [id])
+  classId     String?
+  class       Class?       @relation(fields: [classId], references: [id])
+  attendance  Attendance[]
+  grades      Grade[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  Course      Course?      @relation(fields: [courseId], references: [id])
+  courseId    String?
   submissions Submission[]
 }
 

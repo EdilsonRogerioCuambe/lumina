@@ -1,20 +1,20 @@
 'use client'
-import { Coordinator, User, Course } from '@prisma/client'
+import { Professor, User, Course } from '@prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
 
-interface CoordinatorWithUserWithCourses extends Coordinator {
+interface ProfessorWithUserWithCourses extends Professor {
   user: User | null
   courses: Course[]
 }
 
-export const columns: ColumnDef<CoordinatorWithUserWithCourses>[] = [
+export const columns: ColumnDef<ProfessorWithUserWithCourses>[] = [
   {
     accessorKey: 'id',
     header: 'ID',
   },
   {
     accessorKey: 'user',
-    header: 'Coordenador',
+    header: 'Professor',
     cell: ({ row }) => {
       const user = row.original.user
       return <span>{user ? user.name : 'Desconhecido'}</span>

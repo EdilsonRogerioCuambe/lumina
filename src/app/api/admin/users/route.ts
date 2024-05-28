@@ -67,6 +67,7 @@ export async function POST(request: Request) {
         city,
         state,
         country,
+        role,
         phone,
         code,
         cpf,
@@ -89,9 +90,9 @@ export async function POST(request: Request) {
 
     const emailSubject = 'Bem-vindo ao nosso sistema!'
     const emailHtml = `
-      <div style="background-color: #f5f5f5; padding: 20px;">
-        <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 10px;">
-          <h2 style="color: #333333;">Bem-vindo ao nosso sistema!</h2>
+      <div style="background-color: #f5f5f5; padding: 20px; font-family: Arial, sans-serif;">
+        <div style="max-width: 600px; margin: 0 auto; background-color: #333333; padding: 20px; border-radius: 10px;">
+          <h2 style="color: #f5f5f5;">Bem-vindo ao nosso sistema!</h2>
           <p style="color: #333333;">
             Olá ${name},
           </p>

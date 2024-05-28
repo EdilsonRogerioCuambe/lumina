@@ -248,7 +248,7 @@ export default function Page() {
                     </FormControl>
                     <SelectContent>
                       <SelectItem value="ADMIN">Admin</SelectItem>
-                      <SelectItem value="TEACHER">Professor</SelectItem>
+                      <SelectItem value="PROFESSOR">Professor</SelectItem>
                       <SelectItem value="STUDENT">Estudante</SelectItem>
                       <SelectItem value="COORDINATOR">Coordenador</SelectItem>
                     </SelectContent>

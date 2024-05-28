@@ -18,6 +18,7 @@ import {
   LogOut,
 } from 'lucide-react'
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react'
 
 interface SidebarProps {
@@ -34,6 +35,7 @@ interface MenuItem {
 
 export default function Sidebar({ isOpen }: SidebarProps) {
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null)
+  const pathname = usePathname()
 
   const handleSubMenuToggle = (title: string) => {
     if (openSubMenu === title) {
@@ -128,7 +130,9 @@ export default function Sidebar({ isOpen }: SidebarProps) {
         <ul className="space-y-2 p-4">
           {menus.map((menu, index) => (
             <li key={index} className="text-[#333333]">
-              <div className="flex items-center justify-between hover:bg-gray-100 rounded-md p-2 transition-colors duration-200">
+              <div
+                className={`flex items-center justify-between hover:bg-[#202024] hover:text-[#f5f5f5] rounded-md p-2 transition-all duration-300 ease-in-out ${pathname === menu.path ? 'text-[#f5f5f5] bg-[#333333] rounded px-2' : ''}`}
+              >
                 <Link href={menu.path} className="flex items-center">
                   {menu.icon}
                   <span className="ml-3">{menu.title}</span>
@@ -153,7 +157,7 @@ export default function Sidebar({ isOpen }: SidebarProps) {
                     <li key={subIndex}>
                       <Link
                         href={sublink.path}
-                        className="block py-1 text-gray-600 hover:text-gray-800"
+                        className={`block py-1 transition-all duration-300 ease-in-out hover:bg-[#202024] rounded px-2 hover:text-[#f5f5f5] ${pathname === sublink.path ? 'text-[#f5f5f5] bg-[#333333] rounded px-2' : ''}`}
                       >
                         {sublink.title}
                       </Link>

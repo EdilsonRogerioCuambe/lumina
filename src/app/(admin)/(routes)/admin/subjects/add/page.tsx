@@ -1,18 +1,18 @@
 import prisma from '@/database/db'
-import { DataTable } from './_components/data.table'
-import { columns } from './_components/columns'
+import AddSubjectForm from './_components/add.subject.form'
 
 export default async function Page() {
   const professors = await prisma.professor.findMany({
     include: {
       user: true,
-      courses: true,
     },
   })
 
+  const courses = await prisma.course.findMany()
+
   return (
     <div className="bg-white shadow-sm rounded-md p-4">
-      <DataTable columns={columns} data={professors} />
+      <AddSubjectForm courses={courses} professors={professors} />
     </div>
   )
 }
